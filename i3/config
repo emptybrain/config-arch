@@ -10,6 +10,7 @@ set $mod Mod4
 
 ## APP ##
 set $term kitty
+set $term2 alacritty
 set $poly ~/.config/polybar/launch.sh 
 set $flameshot flameshot
 
@@ -124,6 +125,9 @@ set $right semicolon
 # start a terminal
 bindsym $mod+Return exec $term
 
+# start alacritty
+bindsym $alt+Control+t exec $term2
+
 # kill focused window
 bindsym $mod+c kill
 
@@ -136,6 +140,7 @@ bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
+
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left

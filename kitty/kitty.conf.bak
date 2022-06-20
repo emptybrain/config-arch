@@ -6,16 +6,14 @@ bold_italic_font auto
 
 font_size 11.0
 
-#: cursor
-cursor_shape beam
 
 #: scroll
 scroll_back_lines 4000
 
 #: url
-# url_color #0000FF
+url_color #0000FF
 
 # BEGIN_KITTY_THEME
-# Tokyo Night
+# Material Dark
 include current-theme.conf
 # END_KITTY_THEME
