@@ -1,0 +1,7 @@
+{
+  "pylsp.plugins.jedi_hover.enabled": false,
+  "pylsp.plugins.jedi_completion.fuzzy": true,
+  "pylsp.plugins.pyflakes.enabled": false,
+  "pylsp.plugins.jedi_completion.eager": false,
+  "pylsp.plugins.pylint.enabled": false
+}

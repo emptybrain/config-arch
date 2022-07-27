@@ -1,7 +1,9 @@
 # i3 config file
 
 # border & title
-for_window [class="^.*"] border pixel 0, title_format "<b> %class >> %title </b>"
+default_border pixel 1
+default_floating_border pixel 1
+# for_window [class="^.*"] border pixel 0, title_format "<b> %class >> %title </b>"
 
 
 ## MOD KEY ##
@@ -11,12 +13,65 @@ set $mod Mod4
 ## APP ##
 set $term kitty
 set $term2 alacritty
-set $poly ~/.config/polybar/launch.sh 
+set $poly ~/.config/polybar/launch.sh
 set $flameshot flameshot
 
 
+#### RESURRECT ####
+
+set $i3_resurrect i3-resurrect
+
+# Save workspace mode.
+mode "save" {
+  bindsym 1 exec $i3_resurrect save -w 1
+  bindsym 2 exec $i3_resurrect save -w 2
+  bindsym 3 exec $i3_resurrect save -w 3
+  bindsym 4 exec $i3_resurrect save -w 4
+  bindsym 5 exec $i3_resurrect save -w 5
+  bindsym 6 exec $i3_resurrect save -w 6
+  bindsym 7 exec $i3_resurrect save -w 7
+  bindsym 8 exec $i3_resurrect save -w 8
+  bindsym 9 exec $i3_resurrect save -w 9
+  bindsym 0 exec $i3_resurrect save -w 0
+
+  # Back to normal: Enter, Escape, or s
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym s mode "default"
+  bindsym $mod+s $mod+Shift+s "default"
+}
+
+bindsym $mod+Shift+s mode "save"
+
+# Restore workspace mode.
+mode "restore" {
+  bindsym 1 exec $i3_resurrect restore -w 1
+  bindsym 2 exec $i3_resurrect restore -w 2
+  bindsym 3 exec $i3_resurrect restore -w 3
+  bindsym 4 exec $i3_resurrect restore -w 4
+  bindsym 5 exec $i3_resurrect restore -w 5
+  bindsym 6 exec $i3_resurrect restore -w 6
+  bindsym 7 exec $i3_resurrect restore -w 7
+  bindsym 8 exec $i3_resurrect restore -w 8
+  bindsym 9 exec $i3_resurrect restore -w 9
+  bindsym 0 exec $i3_resurrect restore -w 0
+
+  # Back to normal: Enter, Escape, or n
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym n mode "default"
+  bindsym $mod+Shift+n mode "default"
+}
+
+bindsym $mod+Shift+n mode "restore"
+
+
+
+
+
+
 #### GAPS ####
-gaps inner 6
+gaps inner 0
 gaps outer 0
 
 
@@ -34,8 +89,8 @@ bindsym $mod+Control+Shift+minus gaps outer all     minus 5
 
 #### border color ####
 # class                 border  backgr. text    indicator child_border
-client.focused          #bcbcbc #777777 #111111 #2ef2b4   #285577
-client.focused_inactive #333333 #5f676a #111111 #484e50   #5f676a
+client.focused          #9e0010 #0e1111 #ffffff #0a0a0a   #787878
+client.focused_inactive #333333 #0e1111 #ffffff #484e50   #0a0a0a
 
 client.background       #ffffff
 
@@ -58,11 +113,11 @@ exec numlockx on
 
 
 #### POLKIT ####
-exec  /usr/lib/polkit-gnome/polkit-gnome/polkit-gnome-authentication-agent-1
+exec  --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 
 #### KEYRING ####
-exec  /usr/bin/gnome-keyring-daemon --start
+exec  --no-startup-id /usr/bin/gnome-keyring-daemon --start
 
 
 # Start XDG autostart .desktop files using dex. See also
@@ -85,6 +140,8 @@ bindsym  $mod+m exec pactl set-source-mute  @DEFAULT_SOURCE@ toggle
 
 #### POLYBAR ####
 exec $poly
+# exec --no-startup-id xfce4-panel --disable-wm-check
+exec --no-startup-id dunst
 
 ### ROFI ###
 bindsym $mod+d exec "rofi -modi drun,run -show drun"
@@ -96,8 +153,8 @@ bindsym $mod+x exec rofi -show power-menu -modi power-menu:rofi-power-menu
 bindsym $alt+d exec --no-startup-id dmenu_run
 
 ### WALPAPER ###
-#exec --no-startup-id nitrogen --restore
-exec bash ~/.config/i3/auto-wall.sh
+exec --no-startup-id nitrogen --restore
+#exec bash ~/.config/i3/auto-wall.sh
 
 ### PICOM ###
 exec --no-startup-id picom --experimental-backends -b
@@ -123,10 +180,14 @@ set $left j
 set $right semicolon
 
 # start a terminal
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec $term;focus
+bindsym $alt+t exec $term --class kitty-floating;focus
+for_window [class="^kitty-floating$"] floating enable 
+for_window [class="^kitty-floating$"] resize set 900 500;position center
 
 # start alacritty
-bindsym $alt+Control+t exec $term2
+bindsym $alt+Control+t exec $term2;focus
+#$for_window [title="^alacritty-floating$"] floating enable
 
 # kill focused window
 bindsym $mod+c kill
@@ -198,8 +259,6 @@ bindsym $mod+a focus parent
 
 ########### WORKSPACE ###########
 
-
-
 # CYCLE WORKSPACE 
 bindsym $alt+Control+Right workspace next
 bindsym $alt+Control+Left workspace prev
@@ -217,28 +276,28 @@ set $ws9 "9"
 set $ws10 "10"
 
 # switch to workspace
-bindsym $mod+1 workspace number $ws1
-bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
-bindsym $mod+4 workspace number $ws4
-bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
-bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
-bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
+bindsym $alt+1 workspace number $ws1
+bindsym $alt+2 workspace number $ws2
+bindsym $alt+3 workspace number $ws3
+bindsym $alt+4 workspace number $ws4
+bindsym $alt+5 workspace number $ws5
+bindsym $alt+6 workspace number $ws6
+bindsym $alt+7 workspace number $ws7
+bindsym $alt+8 workspace number $ws8
+bindsym $alt+9 workspace number $ws9
+bindsym $alt+0 workspace number $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $alt+Shift+1 move container to workspace number $ws1
+bindsym $alt+Shift+2 move container to workspace number $ws2
+bindsym $alt+Shift+3 move container to workspace number $ws3
+bindsym $alt+Shift+4 move container to workspace number $ws4
+bindsym $alt+Shift+5 move container to workspace number $ws5
+bindsym $alt+Shift+6 move container to workspace number $ws6
+bindsym $alt+Shift+7 move container to workspace number $ws7
+bindsym $alt+Shift+8 move container to workspace number $ws8
+bindsym $alt+Shift+9 move container to workspace number $ws9
+bindsym $alt+Shift+0 move container to workspace number $ws10
 
 ############################
 
@@ -264,16 +323,16 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym $left       resize shrink width 10 px or 10 ppt
-        bindsym $down       resize grow height 10 px or 10 ppt
-        bindsym $up         resize shrink height 10 px or 10 ppt
-        bindsym $right      resize grow width 10 px or 10 ppt
+        bindsym $left       resize shrink width 25 px or 25 ppt
+        bindsym $down       resize grow height 25 px or 25 ppt
+        bindsym $up         resize shrink height 25 px or 25 ppt
+        bindsym $right      resize grow width 25 px or 25 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left        resize shrink width 10 px or 10 ppt
-        bindsym Down        resize grow height 10 px or 10 ppt
-        bindsym Up          resize shrink height 10 px or 10 ppt
-        bindsym Right       resize grow width 10 px or 10 ppt
+        bindsym Left        resize shrink width 25 px or 25 ppt
+        bindsym Down        resize grow height 25 px or 25 ppt
+        bindsym Up          resize shrink height 25 px or 25 ppt
+        bindsym Right       resize grow width 25 px or 25 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
