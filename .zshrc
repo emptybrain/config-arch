@@ -19,8 +19,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="powerlevel10k/powerlevel10k"
-#ZSH_THEME="agnoster"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+#ZSH_THEME="robbyrussell"
 
 
 # Set list of themes to pick from when loading at random
@@ -95,11 +95,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vi'
+else
+  export EDITOR='lvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -114,11 +114,12 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ######## ALIAS #########
-alias v='nvim'
 alias zshconfig="v ~/.zshrc"
 alias ohmyzsh="v ~/.oh-my-zsh"
 alias ppr='polybar-msg cmd restart'
 
+####### RIPGREP ALIAS ######
+alias rg='rg -i'
 
 ######## EXA ALIAS ########
 alias ls='exa --icons --color auto'                                                         # ls
@@ -127,9 +128,16 @@ alias ll='exa --icons --color auto -lbGF --git'                                 
 alias llm='exa --icons --color auto -lbGF --git --sort=modified'                            # long list, modified date sort
 alias tree='exa --icons --color auto --tree'
 
+##### PACMAN ALIAS ####
+alias pacsy='sudo pacman -Syy '
+alias pac='sudo pacman -S '
 
 ##### VIM #####
+alias nvim='lvim'
 alias v='nvim'
+
+#### PYTHON #####
+alias py='python'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
